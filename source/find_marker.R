@@ -1,7 +1,7 @@
 find_marker<-function(data,group){
   obj <- data 
   obj@meta.data$group<-as.factor(obj@meta.data$group)
-  #统一ident组别和group
+  
   obj@active.ident<-obj$group
 
   markers <- FindMarkers(obj,ident.1 = group[1],ident.2 = group[2],group.by = 'group', min.pct = 0, logfc.threshold =0)
@@ -12,7 +12,7 @@ find_marker<-function(data,group){
 add_State<-function(markers,FC_Threshold=1.2,pvalue=0.05,Pvalue_type1="p_val_adj"){
   fc<-abs(log2(as.numeric(FC_Threshold)))
   py<-abs(-log10(as.numeric(pvalue)))
-  #筛选SCT保留
+ 
   markers$mz<-as.character(rownames(markers))
   markers <- markers[order(abs(markers$avg_log2FC),decreasing=TRUE),]
   markers$avg_log2FC<-as.numeric(markers$avg_log2FC)
