@@ -2,7 +2,7 @@ runxy<-function(data,sample="sample",pc=30,vg=3000,binsize=1){
 data %<>% arrange(y) %>% arrange(x)
 data$x <- trunc(data$x / binsize) * binsize
 data$y <- trunc(data$y / binsize) * binsize
-data$intensity <- as.numeric(data$intensity)  # 将整数类型转换为数值类型
+data$intensity <- as.numeric(data$intensity)  
 setDT(data)
 data <- data[, .(counts = sum(intensity)), by = .(mz, x, y)]
 #' create sparse matrix from stereo
@@ -11,9 +11,9 @@ data$mzx <- match(data$mz, unique(data$mz))
 data$cellIdx <- match(data$cell, unique(data$cell))
 mat <- sparseMatrix(i = data$mzx, j = data$cellIdx, x = data$counts,
                     dimnames = list(unique(data$mz), unique(data$cell)))
-#sparseMatrix稀疏矩阵函数
+
 cell_coords <- unique(data[, c('cell', 'x', 'y')])
-#unique去除重复函数，删除cell,x和y都一样的行
+
 rownames(cell_coords) <- cell_coords$cell
 
 seurat_spatialObj <- CreateSeuratObject(counts = mat, project = 'Stereo', assay = 'Spatial',
@@ -23,8 +23,8 @@ cell_coords$x <- cell_coords$x - min(cell_coords$x) + 1
 cell_coords$y <- cell_coords$y - min(cell_coords$y) + 1
 
 tissue_lowres_image <- matrix(1, max(cell_coords$y), max(cell_coords$x))
-#matrix(aa,x,y)以aa为输入向量，创建一个x行y列的矩阵
-#构造一个seruat image
+
+
 
 tissue_positions_list <- data.frame(row.names = cell_coords$cell,
                                     tissue = 1,
@@ -35,10 +35,7 @@ tissue_positions_list <- data.frame(row.names = cell_coords$cell,
 scalefactors_json <- toJSON(list(fiducial_diameter_fullres = binsize,
                                  tissue_hires_scalef = 1,
                                  tissue_lowres_scalef = 1))
-#toJSON: 把json格式 转换成 list格式
 
-
-#' function to create image object
 generate_spatialObj <- function(image, scale.factors, tissue.positions, filter.matrix = TRUE){
   if (filter.matrix) {
     tissue.positions <- tissue.positions[which(tissue.positions$tissue == 1), , drop = FALSE]
