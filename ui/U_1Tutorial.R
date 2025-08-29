@@ -103,7 +103,7 @@ tabItem(tabName = "Tutorial",
           div(class = "panel panel-primary",
               div(class = "panel-heading", h3("Web Application")),
               div(class = "panel-body",
-                  p(strong("Access our online server:"), tags$a(href = "https://metax.genomics.cn/app/SManalyst", "https://metax.genomics.cn/app/SManalyst", target = "_blank"),
+                  p(strong("Access our online server:"), tags$a(href = "https://metax.genomics.cn/app/smanalyst", "https://metax.genomics.cn/app/SManalyst", target = "_blank"),
                     p("- No installation required"),
                     p("- Runs on cloud server (128 CPU cores, 1000GB RAM)")
               ))),
