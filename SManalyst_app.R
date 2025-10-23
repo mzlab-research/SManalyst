@@ -138,6 +138,7 @@ ui <- dashboardPage(
 
 server <- function(input, output) {
   options(shiny.maxRequestSize=3000*1024^2)
+  options(future.globals.maxSize = 1500 * 1024^2)
   source(file.path("server","S_1Tutorial.R"),  local = TRUE)$value
   source(file.path("server","S_2upload.R"),  local = TRUE)$value
   source(file.path("server","S_3qc1.R"),  local = TRUE)$value
